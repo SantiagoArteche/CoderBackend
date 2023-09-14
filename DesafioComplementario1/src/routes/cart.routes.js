@@ -54,7 +54,6 @@ cartRouter.post("/:cid/products/:pid", async (request, response) => {
     try {
         const cart = await cartsModel.findById(cid)
         
-
         if(cart){
             const product = await productModel.findById(pid)
             if(product){
@@ -71,6 +70,7 @@ cartRouter.post("/:cid/products/:pid", async (request, response) => {
                 res.status(200).send({ res:"OK", message: resp})
                 
             }else{
+                
                 response.status(404).send({ res: "Error en agregar producto al carrito", message: "Producto no encontrado"})
             }
         }else{
@@ -79,11 +79,6 @@ cartRouter.post("/:cid/products/:pid", async (request, response) => {
     } catch (error) {
         response.status(404).send({ res: "Error en agregar producto al carrito", message: error})
     }
-
-    
-    await productManager.addProductCartSelected(parseInt(cid), parseInt(pid))
-
-    response.status(200).send("Producto anadido al carrito")
 })
 
 

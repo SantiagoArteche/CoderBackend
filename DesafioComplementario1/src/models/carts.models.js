@@ -19,6 +19,6 @@ const cartsSchema = new Schema({
     default: []
 },
 
-})
+},{versionKey: false})
 
 export const cartsModel = model("carts", cartsSchema)

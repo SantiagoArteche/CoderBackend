@@ -1,7 +1,7 @@
 import express from "express"
 import cartRouter from "./routes/cart.routes.js"
 import productRouter from "./routes/products.routes.js"
-import mesaggesRouter from "./routes/mesagges.routes.js"
+import messagesRouter from "./routes/messages.routes.js"
 import mongoose from "mongoose"
 import path from "path"
 import { engine } from 'express-handlebars'
@@ -13,7 +13,7 @@ const PORT = 8080
 
 const app = express()
 
-mongoose.connect("mongodb+srv://SantiArteche:<password>@cluster0.zn2mcct.mongodb.net/?retryWrites=true&w=majority").then(console.log("DB connected"))
+mongoose.connect("mongodb+srv://SantiArteche:EpjiAvhPp0BgL5Hi@cluster0.zn2mcct.mongodb.net/?retryWrites=true&w=majority").then(console.log("DB connected"))
 
 const server = app.listen(PORT, () => {
     console.log(`Server on PORT ${PORT}`);
@@ -26,7 +26,7 @@ app.engine("handlebars", engine())
 app.set("view engine", "handlebars")
 app.set("views", path.resolve(__dirname, "./views"))
 app.use("/api", express.static(path.join(__dirname, "/public")))
-import { messageModel } from "./models/messages.models.js"
+
 
 const io = new Server(server)
 
@@ -47,7 +47,7 @@ app.use("/api/carts", cartRouter)
 
 app.use("/api/products", productRouter)
 
-app.use("/api/messages", mesaggesRouter)
+app.use("/api/messages", messagesRouter)
 
 app.get("/api/chatmessage", (request, response) => {
     response.status(200).render("chat")

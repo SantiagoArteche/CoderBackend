@@ -15,6 +15,6 @@ const messagesSchema = new Schema({
         default: Date.now
     }
 
-})
+}, {versionKey: false})
 
-export const messageModel = model("messages", messagesSchema)
+export const messagesModel = model("messages", messagesSchema)

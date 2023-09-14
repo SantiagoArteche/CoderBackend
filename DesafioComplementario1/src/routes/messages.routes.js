@@ -25,7 +25,7 @@ messagesRouter.post('/', async (request, response) => {
 
     try {
 
-        const respuesta = await messageModel.create({ email, message });
+        const respuesta = await messageModel.create({ email, message })
 
         response.status(200).send({respuesta: 'OK message send', message: respuesta})
 

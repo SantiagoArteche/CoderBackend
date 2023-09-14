@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 const productSchema = new Schema({
 
     title: {
-        type: String,
+        type : String,
         required: true
     },
     description: {
@@ -26,7 +26,11 @@ const productSchema = new Schema({
         type: Number,
         required: true
     }
-    
-})
 
+}, {versionKey: false})
+
+productSchema.pre("findOne", function () {
+    this.populate("")
+})
 export const productModel = model("products", productSchema)
+
