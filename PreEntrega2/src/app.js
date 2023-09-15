@@ -12,16 +12,46 @@ import { cartsModel } from "./models/carts.models.js";
 import { productModel } from "./models/products.models.js";
 
 
+
 const PORT = 8080
 
 const app = express()
 
 mongoose.connect("mongodb+srv://SantiArteche:EpjiAvhPp0BgL5Hi@cluster0.zn2mcct.mongodb.net/?retryWrites=true&w=majority")
 .then(async () => { 
-    console.log("DB connected")
-    const resultados = await cartsModel.findOne({_id: "65029a89c24c5874a5cd2785" })
-    console.log(JSON.stringify(resultados));
-})
+    console.log("BDD conectada");
+  
+
+
+// array.forEach(el => productModel.create(el))
+
+    // const resultados = await productModel.aggregate([
+    //     {
+    //         $match: { price: {$gt: 1000} }
+    //     },
+    //     {
+    //         $group: {_id:"$title", totalQuantity: {$sum: 1}, totalPrice: {$sum: "$price"} }
+    //     },
+    //     {
+    //         $sort: { totalPrice: 1}
+    //     },
+    //     { 
+    //         $group: { _id: 1, agrups: { $push: "$$ROOT"}}
+    //     },
+    //     {
+    //         $project: {
+    //             "_id":0,
+    //             agrups: "$agrups"
+    //         }
+    //     },
+    //     {
+    //         $merge: {
+    //             into: "reports"
+    //         }
+    //     }
+    // ])
+    
+}).catch(error => {console.log(error);})
 
 const server = app.listen(PORT, ()=> {
     console.log(`Servidor on PORT ${PORT}`);
