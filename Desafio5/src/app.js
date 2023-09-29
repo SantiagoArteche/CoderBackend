@@ -87,15 +87,19 @@ const products = await productModel.find().lean()
 app.get("/api/sessions/products", (request, response) => {
     
     // Parseo de cookies para mostrar nombre de usuario en vista productos
-    let cookies
-    if(JSONCookies(request.signedCookies.username) !== null && JSONCookies(request.signedCookies.username) !== undefined ){
-        cookies = JSONCookies(request.signedCookies.username)
-        console.log(cookies);
+    let cookieName
+    let cookieRol
+    if(JSONCookies(request.signedCookies) !== null && JSONCookies(request.signedCookies) !== undefined){
+        cookieName = JSONCookies(request.signedCookies.username)
+        cookieRol = JSONCookies(request.signedCookies.rol)
+        console.log(cookieRol);
+        console.log(cookieName);
     }
     
     response.status(200).render("productsList", { 
         getProducts: products,
-        cookies: cookies
+        cookieName: cookieName,
+        cookieRol: cookieRol
     }
     )
 })

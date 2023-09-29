@@ -20,6 +20,7 @@ sessionRouter.post('/login', async(request, response) => {
                 request.session.login = true
 
                 response.cookie("username", user.first_name, { maxAge: 100000, signed: true}) //GENERACION DE COOKIE PARA LUEGO SER PARSEADA EN APP.JS
+                response.cookie("rol", user.rol, {maxAge: 100000, signed:true})//GENERACION DE COOKIE PARA LUEGO SER PARSEADA EN APP.JS
                 
                 response.status(200).send({ res: "OK", mes: user})
             }else{
