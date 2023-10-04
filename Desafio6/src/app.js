@@ -93,11 +93,14 @@ app.get("/api/sessions/products", (request, response) => {
     // Parseo de cookies para mostrar nombre de usuario en vista productos
     let cookieName
     let cookieRol
-    if(JSONCookies(request.signedCookies) !== null && JSONCookies(request.signedCookies) !== undefined){
-        cookieName = JSONCookies(request.signedCookies.username)
-        cookieRol = JSONCookies(request.signedCookies.rol)
-        console.log(cookieRol);
-        console.log(cookieName);
+    try {
+        if(JSONCookies(request.signedCookies) !== null && JSONCookies(request.signedCookies) !== undefined){
+    cookieName = JSONCookies(request.signedCookies.username)
+    cookieRol = JSONCookies(request.signedCookies.rol)
+    console.log(cookieRol)
+    console.log(cookieName)}
+    } catch (error) {
+        console.log(error)
     }
     
     response.status(200).render("productsList", { 

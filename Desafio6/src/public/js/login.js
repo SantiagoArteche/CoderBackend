@@ -30,20 +30,20 @@ if(form){
         const login = Object.fromEntries(datForm)
 
         try {
-            const response = await fetch('/api/sessions/login', {
+            await fetch('/api/sessions/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(login)
-            })
-            const info = await response.json()
-            console.log(info);
-            if (response.status === 200 || response.status === 404) {
-            window.location.href = '/api/sessions/products' //Redireccionamiento
-            }else{
-                alert("error")
-            }
+            }).then(resp => resp.json()).then((data) => {
+                console.log(data);
+                if (data.res === 'OK') {
+                    window.location.href = '/api/sessions/products' //Redireccionamiento
+                    }else{
+                        alert("error")
+                    }
+            }).catch(error => console.log(error))
     
         } catch (error) {
             console.log(error)

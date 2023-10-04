@@ -94,13 +94,10 @@ app.get("/api/sessions/products", (request, response) => {
             if(JSONCookies(request.signedCookies) !== null && JSONCookies(request.signedCookies) !== undefined){
         cookieName = JSONCookies(request.signedCookies.username)
         cookieRol = JSONCookies(request.signedCookies.rol)
-        console.log(cookieRol);
-        console.log(cookieName);}else{
-            cookieName = ''
-            cookieRol = ''
-        }
+        console.log(cookieRol)
+        console.log(cookieName)}
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
         
     
