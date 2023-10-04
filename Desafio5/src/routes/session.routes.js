@@ -36,12 +36,18 @@ sessionRouter.post('/login', async(request, response) => {
 })
 
 sessionRouter.get("/logout", (request, response) => {
-    if(request.session.login == true){
-        request.session.destroy()
-        response.status(200).send({ res: "error", mes: "usuario deslogeado"})
-    }else{
-        response.status(404).send({ res: "error", mes: "no hay ningun usuario logeado"})
+
+    try {
+        if(request.session.login == true){
+            request.session.destroy()
+            response.status(200).send({ res: "error", mes: "usuario deslogeado"})
+        }else{
+            response.status(404).send({ res: "error", mes: "no hay ningun usuario logeado"})
+        }
+    } catch (error) {
+        console.log(error);
     }
+   
 })
 
 export default sessionRouter
