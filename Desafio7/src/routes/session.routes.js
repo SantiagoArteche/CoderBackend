@@ -1,97 +1,46 @@
 import { Router } from "express";
 import passport from "passport";
 import { passportError, authorization } from "../utils/messagesError.js";
-import { generateToken } from "../utils/jwt.js";
+import {
+  currentSession,
+  github,
+  githubCallback,
+  logout,
+  register,
+  testJWT,
+} from "../controllers/session.controller.js";
 
 const sessionRouter = Router();
 
-sessionRouter.post(
-  "/login",
-  passport.authenticate("login"),
-  async (request, response) => {
-    try {
-      if (!request.user) {
-        return response.status(401).send({ mes: "Usuario invalido" });
-      }
+sessionRouter.post("/login", passport.authenticate("login"));
 
-      request.session.user = {
-        first_name: request.user.first_name,
-        last_name: request.user.last_name,
-        age: request.user.age,
-        email: request.user.email,
-      };
-
-      const token = generateToken(request.user);
-      response.cookie("jwtCookie", token, {
-        maxAge: 43200000,
-      });
-
-      response.status(200).send({ payload: request.user });
-    } catch (error) {
-      response.status(500).send({ mes: `Error al iniciar sesion ${error}` });
-    }
-  }
-);
-
-sessionRouter.post(
-  "/register",
-  passport.authenticate("register"),
-  async (request, response) => {
-    try {
-      if (!request.user) {
-        return response.status(400).send({ mes: "Usuario ya existente" });
-      }
-
-      response.status(200).send({ mes: "Usuario registrado" });
-    } catch (error) {
-      response.status(500).send({ mes: `Error al registrar usuario ${error}` });
-    }
-  }
-);
+sessionRouter.post("/register", passport.authenticate("register"), register);
 
 sessionRouter.get(
   "/github",
   passport.authenticate("github", { scope: ["user:email"] }),
-  async (request, response) => {
-    response.status(200).send({ mes: "Usuario registrado" });
-  }
+  github
 );
 
 sessionRouter.get(
   "/githubCallback",
   passport.authenticate("github"),
-  async (request, response) => {
-    request.session.user = request.user;
-    response.status(200).send({ mes: "Usuario logeado" });
-  }
+  githubCallback
 );
 
-sessionRouter.get("/logout", (request, response) => {
-  if (request.session.login) {
-    request.session.destroy();
-  }
-  response.clearCookie("jwtCookie");
-  response.redirect("/api/sessions/login", 200, {
-    res: "usuario deslogeado",
-  });
-});
+sessionRouter.get("/logout", logout);
 
 sessionRouter.get(
   "/testJWT",
   passport.authenticate("jwt", { session: false }),
-  (request, response) => {
-    console.log(request);
-    response.send(request.user);
-  }
+  testJWT
 );
 
 sessionRouter.get(
   "/current",
   passportError("jwt"),
   authorization("user"),
-  (request, response) => {
-    response.send(request.user);
-  }
+  currentSession
 );
 
 export default sessionRouter;
